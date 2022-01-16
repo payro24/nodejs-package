@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+	<title>Contact Form 01</title>
+	<meta charset="utf-8">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="/assets/css/bootstrap/bootstrap-rtl.min.css" media="screen">
+
+</head>
+
+<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-10 col-md-12">
+					<div class="wrapper">
+						<div class="row no-gutters">
+							<div class="col-md-7 d-flex ">
+								<div class="contact-wrap w-100 p-md-5 p-4">
+									<h3 class="mb-4" style="text-align: center;">پرداخت</h3>
+									<div id="form-message-warning" class="mb-4"></div>
+
+									<form method="POST" id="contactForm" name="contactForm"
+										action="http://localhost:1377/payroapi/payment" target="_self">
+										<div class="row" style="text-align: right;">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="order_id" class="col-form-label">(ضروری)شناسه سفارش</label>
+													<input type="number" class="form-control" name="order_id"
+														id="order_id" placeholder="<%= data.order_id %>">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="amount" class="col-form-label">(ضروری)قیمت</label>
+													<input type="number" class="form-control" name="amount" id="amount"
+														placeholder="<%= data.amount %>">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<div class="form-group">
+														<label for="name" class="col-form-label">(اختیاری)نام</label>
+														<input type="text" class="form-control" name="name" id="name"
+															placeholder="<%= data.name %>">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="phone" class="col-form-label">(اختیاری)تلفن</label>
+													<input type="number" class="form-control" name="phone" id="phone"
+														placeholder="<%= data.phone %>">
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<div class="form-group">
+														<label for="mail" class="col-form-label">(اختیاری)ایمیل</label>
+														<input type="email" class="form-control" name="mail" id="mail"
+															placeholder="<%= data.mail %>">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="desc" class="col-form-label">(اختیاری)توضیحات</label>
+													<input type="text" class="form-control" name="desc" id="desc"
+														placeholder="<%= data.desc %>">
+												</div>
+											</div>
+
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="پرداخت" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div class="col-md-5 d-flex align-items-stretch">
+								<div class="info-wrap bg-primary w-100 p-lg-5 p-4">
+									<h3 class="mb-4 mt-md-4" style="text-align: center;">توضیحات</h3>
+
+									<div class="dbox w-100 d-flex align-items-center"
+										style="text-align: justify; text-justify: inter-word;">
+										<p>
+											این صفحه یک نمونه صفحه پرداخت می باشد . شما بعد پر کردن اطلاعات و بعد از زدن
+											دکمه پرداحت وارد سایت پذیرنده میشوید و میتوانید عملیات مورد نظر خود را برای
+											ادامه کار انتخاب کنید .
+										</p>
+									</div>
+
+									<div class="dbox w-100 d-flex align-items-center">
+										<div class="icon d-flex align-items-center justify-content-center">
+											<span class="fa fa-globe"></span>
+										</div>
+										<div class="text pl-3">
+											<p><span>Website</span> <a href="https://panel.payro24.ir/">payro24.ir</a></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- <script src="/assets/js/jquery.min.js"></script>
+  <script src="/assets/js/popper.js"></script>
+  <!-- <script src="/assets/js/bootstrap.min.js"></script> -->
+	<!-- <script src="/assets/js/jquery.validate.min.js"></script>
+  <script src="/assets/js/main.js"></script> --> -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
