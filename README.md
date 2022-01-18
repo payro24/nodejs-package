@@ -46,6 +46,47 @@ P_SANDBO="1" //حالت تست یا به اصطلاح سندباکس
 
 <div dir="rtl">
   
- بعد از پر کردن اطلاعات داخل فرم صفحه پرداخت و زدن دکمه پرداخت API ایجاد تراکنش صدا زده میشود و اطلاعات به سمت سرور `payro` ارسال میشود .
+ بعد از پر کردن اطلاعات داخل فرم صفحه پرداخت و زدن دکمه پرداخت API ایجاد تراکنش صدا زده میشود و اطلاعات به سمت سرور `payro` ارسال میشود . اطلاعاتی که باید در فرم ارسال کنید :
+  
+  ‍‍`order_id شماره سفارش پذیرنده (ضروری)`
+  ‍`amount   (ضروری)مبلغ مورد نظر به ریال`
+  `name نام پرداخت کننده`
+  `phone 	تلفن همراه پرداخت کننده`
+  `mail پست الکترونیک پرداخت کننده`
+  `desc توضیح تراکنش`
+  `callback آدرس بازگشت به سایت پذیرنده`
+  `details اطلاعات تسویه اشتراکی`
+</div>
+<div dir="rtl">
+  
+  کد استفاده شده در نود جی اس برای نمایش صفحه پرداخت :
 </div>
 
+
+```bash
+
+# '/routes/index.js'
+const express = require('express')
+const router = express.Router()
+
+let mainRouter = require('./main.router');
+router.use('/', mainRouter);
+
+module.exports = router
+
+# '/routes/main.router.js'
+let express = require('express');// فرواخوانی Express 
+let router = express.Router(); //فرواخوانی Router
+
+router.get('/', (req, res) => {
+  let data = { // تعریف مقادیر اولیه و پیشفرض برای ارسال به صفحه پرداخت
+    "order_id": 143,
+    "amount": 25000,
+    "name": "توحید",
+    "phone": "09130097803",
+    "mail": "info@test.com",
+    "desc": "توضیحات پرداخت کننده",
+  }
+  res.render('profile' , {data : data}); // باز کردن صفحه پرداخت و ارسال مقادیر پیشفرض به آن
+})
+```
