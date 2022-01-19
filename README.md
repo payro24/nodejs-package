@@ -90,3 +90,75 @@ router.get('/', (req, res) => {
   res.render('profile' , {data : data}); // باز کردن صفحه پرداخت و ارسال مقادیر پیشفرض به آن
 })
 ```
+
+<div dir="rtl">
+
+  کد استفاده شده در نود جی اس برای ارسال درخواست : 
+</div>
+
+‍‍```bash
+
+# '/routes/index.js'
+let payroApiRouter = require('./payroApi.router');
+router.use('/payroapi', payroApiRouter)
+
+# '/routes/payroApi.router.js'
+let express = require('express');
+let router = express.Router();
+
+let payroApiController = require('../controllers/payroApiController')//وارد کردن کنترلر برای انجام درخواست پرداخت
+
+router.post('/payment', payroApiController.payment)//تعریف متد POST برای ارسال درخواست پرداخت
+
+module.exports = router;
+
+# '/controllers/payroApiController.js'
+const axios = require('axios');
+let express = require('express');
+
+const payroApiController = {
+//ایجاد درخواست پرداخت
+    async payment(req, res) {
+//دریافت اطلاعات پر شده در داخل فرم پرداخت       
+        let value = JSON.stringify({
+            "order_id": req.body.order_id,
+            "amount": req.body.amount,
+            "name": req.body.name,
+            "phone": req.body.phone,
+            "mail": req.body.mail,
+            "desc": req.body.desc,
+            "callback": "http://localhost:1377/confirm" //آدرس بازگشت به سایت 
+        });
+ //تعریف کانفیگ اطلاعات مورد نیاز برای ارسال به سرور
+        let config = {
+            method: 'post',// متد ارسالی
+            url: 'https://api-c.payro24.ir/v1.0/payment',//آدرس ارسال درخواست
+            // تعریف هدر برای ارسال درخواست به سمت سرور
+            headers: {
+                'Content-Type': 'application/json',
+                'P-TOKEN': process.env.P_TOKEN ,//توکن یا رمز دریافت شده از سمت پنل پیرو که در داخل env تعذیف شده
+                'P-SANDBOX': process.env.P_SANDBO//فعال یا غیر فعال کردن حالت آزمایشی که در داخل env تعریف شده
+            },
+            data: value //داده ای که باید به سمت سرور ارسال کنیم و در value مقدار دهی کردیم
+        };
+//ارسال درخواست با axios
+        await axios(config)
+            .then(response => {
+                res.redirect(response.data.link);
+            })
+            .catch(error => {
+                res.status('500')
+
+            })
+
+
+    },
+
+}
+module.exports = payroApiController
+```
+<div dir="rtl">
+
+بعد از اسال درخواست شما به سمت سرور . وارد صفحه تاییذ پرداخت میشوید . بعد از اتمام کار در این صفحه شما به سمت آدرسی که در callback تعریف کرده اید منتقل میشوید . 
+</div>
+
