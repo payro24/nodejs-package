@@ -95,9 +95,12 @@ router.get('/', (req, res) => {
 
   کد استفاده شده در نود جی اس برای ارسال درخواست : 
 </div>
+<div dir="rtl">
 
-‍‍```bash
+با دریافت پاسخ اگر همه چیز درست باشد، وضعیت پاسخ 201 Created خواهد بود. و به شما یک json داده خواهد شد که دارای دو فیلد است. یکی id که کلید منحصر بفرد تراکنش است و بهتر است در داخل دیتابیس خود آن را ذخیره کنید و دیگری فیلد link است که میتوانید کاربر خود را به این لینک هدایت کنید. 
+</div>
 
+```bash
 # '/routes/index.js'
 let payroApiRouter = require('./payroApi.router');
 router.use('/payroapi', payroApiRouter)
@@ -144,7 +147,7 @@ const payroApiController = {
 //ارسال درخواست با axios
         await axios(config)
             .then(response => {
-                res.redirect(response.data.link);
+                res.redirect(response.data.link);// هدایت کاربر به سمت لینک دریافت شده
             })
             .catch(error => {
                 res.status('500')
@@ -158,7 +161,61 @@ const payroApiController = {
 module.exports = payroApiController
 ```
 <div dir="rtl">
-
-بعد از اسال درخواست شما به سمت سرور . وارد صفحه تاییذ پرداخت میشوید . بعد از اتمام کار در این صفحه شما به سمت آدرسی که در callback تعریف کرده اید منتقل میشوید . 
+ 
 </div>
+
+بعد از اتمام عملیات پرداخت، درصورتیکه پرداخت با موفقیت انجام شده باشد، پرداخت کننده به آدرسی که پذیرنده در callback مشخص کرده بود منتقل می‌شود.
+
+```bash
+# 'routes/nain.router.js'
+
+router.post('/confirm',(req , res) => {
+  res.render('confirm' , {data : req.body});// باز کردن صفحه تایید و نمایش اطلاعات به کاربر
+} )
+
+‍‍‍```
+
+<div dir="rtl">
+
+بعد از دریافت اطلاعات به سایت پذیرنده و اعتبار سنجی اطلاعات توسط پذیرنده، پذیرنده باید تراکنش را تایید کند تا پرداخت بصورت سیستمی تکمیل شود و از بازگشت پول به پرداخت کننده جلوگیری شود. در این صفحه بعد از زدن تایید API verify برای ثبت تایید تراکنش به صدا در می آید و id و order_id به سمت سرور ارسالذ میشود .
+</div>
+
+
+```bash
+# '/routes/payroApi.router/'
+
+router.post('/verify', payroApiController.verify)
+
+# '/controllers/payroApiControllers/'
+
+    async verify(req, res) {
+    
+        let value = JSON.stringify({
+            "order_id": req.body.order_id,
+            "id" : req.body.id
+        });
+
+        let config = {
+            method: 'post',
+            url: 'https://api.payro24.ir/v1.0/payment/verify',
+            headers: {
+                'Content-Type': 'application/json',
+                'P-TOKEN': process.env.P_TOKEN ,
+                'P-SANDBOX': process.env.P_SANDBO
+            },
+            data: value
+        };
+
+        await axios(config)
+            .then(response => {
+                res.render('profile' , {data : response.data}); // برگشت به صفحه پرداخت در صورت قبول شدن درخواست
+            })
+            .catch(error => {
+                console.log(error);
+
+            })
+    },
+
+‍‍‍```
+
 
