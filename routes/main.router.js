@@ -15,6 +15,8 @@ router.get('/', (req, res) => {
   res.render('profile' , {data : data});
 })
 
-router.post('/confirm',payroApiController.verify )
+router.post('/confirm',(req , res) => {
+  res.render('confirm' , {data : req.body});
+} )
 // res.render('confirm' , {data : req.body});
 module.exports = router;

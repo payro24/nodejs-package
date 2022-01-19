@@ -59,8 +59,7 @@ const payroApiController = {
 
         await axios(config)
             .then(response => {
-                console.log('response verify : ' , response.data)
-                res.render('confirm' , {data : response.data});
+                res.render('profile' , {data : response.data});
             })
             .catch(error => {
                 console.log(error);
